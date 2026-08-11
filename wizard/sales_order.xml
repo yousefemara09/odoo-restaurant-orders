@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="sales_order_id" model="ir.ui.view">
+        <field name="name">sales.order.wizard</field>
+        <field name="model">cancel.sale</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="reason"/>
+                <field name="order_id"/>
+                <footer>
+                    <button
+                        name="action_confirmed"
+                        string="Confirm"
+                        type="object"
+                        class="btn-primary"
+                    />
+                    <button
+                        string="Cancel"
+                        special="cancel"
+                    />
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

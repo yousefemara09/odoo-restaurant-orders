@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="sales_order_inherit" model="ir.ui.view">
+        <field name="name">view_order_form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="customer_po_number"/>
+                <field name="reason"/>
+            </field>
+            <xpath expr="//header" position="inside">
+                <button name="action_send_to_manager" string="Waiting Manager" type="object" class="btn-success"
+                        invisible="state != 'draft'"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="sales_order_list_inherit" model="ir.ui.view">
+    <field name="name">sale.order.list.inherit</field>
+    <field name="model">sale.order</field>
+    <field name="inherit_id" ref="sale.view_quotation_tree"/>
+    <field name="arch" type="xml">
+
+        <field name="partner_id" position="after">
+            <field name="reason"/>
+        </field>
+
+    </field>
+</record>
+</odoo>

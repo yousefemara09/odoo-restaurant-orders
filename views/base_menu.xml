@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <menuitem
+            name="Restaurant App"
+            id="restaurant_app_root_id"
+            />
+
+        <menuitem
+            name="Restaurant"
+            id="restaurant_menu"
+            parent="restaurant_app_root_id"
+            sequence="10"/>
+
+    </data>
+</odoo>

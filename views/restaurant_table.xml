@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="table_view_id" model="ir.ui.view">
+        <field name="name">table_view</field>
+        <field name="model">restaurant.table</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="state"/>
+                <field name="capacity"/>
+                <field name="number"/>
+                <field name="count_orders"/>
+                <field name="order_ids"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="table_form_id" model="ir.ui.view">
+        <field name="name">table_form</field>
+        <field name="model">restaurant.table</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_orders_smart_button" class="oe_stat_button" icon="fa-cutlery" type="object">
+                            <field name="count_orders" widget="statinfo" string="Orders"/>
+                        </button>
+                    </div>
+                    <group col="2">
+                        <group string="First Data">
+                            <field name="name"/>
+                            <field name="state"/>
+                        </group>
+                        <group string="Additional Data">
+                              <field name="capacity"/>
+                              <field name="number"/>
+                              <field name="order_ids" widget="many2many_tags"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="restaurant_table_action" model="ir.actions.act_window">
+        <field name="name">Restaurant App</field>
+        <field name="res_model">restaurant.table</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+        name="Table"
+        id="table_id"
+        parent="restaurant_menu"
+        action="restaurant_table_action"
+        sequence="4"/>
+
+</odoo>

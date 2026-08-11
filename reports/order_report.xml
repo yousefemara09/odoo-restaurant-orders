@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="order_id_xlsx" model="ir.actions.report">
+        <field name="name">Report Order</field>
+        <field name="model">restaurant.order</field>
+
+        <field name="binding_model_id" ref="model_restaurant_order"/>
+        <field name="binding_type">report</field>
+
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">restaurant_app.order_template</field>
+    </record>
+    <template id="order_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="order">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>
+                            Restaurant Order
+                        </h2>
+                        <p>
+                            Order ref:
+                        <span t-field="order.ref"/>
+                        </p>
+                        <p>
+                            Name:
+                            <span t-field="order.name"/>
+                        </p>
+
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Food</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="order.line_ids" t-as="line">
+                                    <tr>
+                                        <td>
+                                            <span t-field="line.menu_id"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="line.price"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="line.quantity"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

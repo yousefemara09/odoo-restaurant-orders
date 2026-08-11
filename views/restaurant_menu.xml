@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="menu_view_id" model="ir.ui.view">
+        <field name="name">menu_view</field>
+        <field name="model">restaurant.menu</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="price"/>
+                <field name="description"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="menu_form_id" model="ir.ui.view">
+        <field name="name">menu_form</field>
+        <field name="model">restaurant.menu</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group col="2">
+                        <group string="First Data">
+                            <field name="name"/>
+                            <field name="price"/>
+                        </group>
+                        <group string="Additional Data">
+                            <field name="active"/>
+                            <field name="description"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="restaurant_menu_action" model="ir.actions.act_window">
+        <field name="name">Restaurant App</field>
+        <field name="res_model">restaurant.menu</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+        name="Menu"
+        id="menu_id"
+        parent="restaurant_menu"
+        action="restaurant_menu_action"
+        sequence="1"
+    />
+</odoo>

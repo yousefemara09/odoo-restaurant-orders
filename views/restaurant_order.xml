@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="order_view_id" model="ir.ui.view">
+        <field name="name">order_view</field>
+        <field name="model">restaurant.order</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="ref"/>
+                <field name="name"/>
+                <field name="phone"/>
+                <field name="order_date"/>
+                <field name="total"/>
+                <field name="table_id"/>
+                <field name="state"/>
+                <field name="cancel_reason"/>
+                <field name="cancel_note"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="order_form_id" model="ir.ui.view">
+        <field name="name">order_form</field>
+        <field name="model">restaurant.order</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <header>
+                        <button
+                            class="btn-success"
+                            name="action_confirm"
+                            type="object"
+                            string="Confirm"
+                            invisible="state != 'draft'"
+                        />
+
+                        <button
+                            class="btn-warning"
+                            name="action_preparing"
+                            type="object"
+                            string="Preparing"
+                            invisible="state != 'confirmed'"
+                        />
+
+                        <button
+                            class="btn-info"
+                            name="action_done"
+                            type="object"
+                            string="Done"
+                            invisible="state != 'preparing'"
+                        />
+
+                        <button
+                            class="btn-danger"
+                            name="action_cancel"
+                            type="object"
+                            string="Cancel"
+                            invisible="state in ['done', 'cancel']"
+                        />
+
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <group col="2">
+                        <group string="Order Data">
+                            <field name="ref"/>
+                            <field name="name"/>
+                            <field name="order_date"/>
+                        </group>
+                        <group string="Status">
+                            <field name="table_id"/>
+                            <field name="total"/>
+                            <field name="phone"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Order Lines">
+                            <field name="line_ids">
+                                <tree editable="bottom">
+                                    <field name="menu_id"/>
+                                    <field name="quantity"/>
+                                    <field name="price" sum="total"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="order_search_id" model="ir.ui.view">
+        <field name="name">order_search</field>
+        <field name="model">restaurant.order</field>
+        <field name="arch" type="xml">
+            <search>
+                <filter name="Draft"
+                        string="Draft"
+                        domain="[('state','=','draft')]"
+                />
+                <filter
+                        name="confirmed"
+                        string="Confirmed"
+                        domain="[('state','=','confirmed')]"
+                />
+
+                <filter
+                        name="preparing"
+                        string="Preparing"
+                        domain="[('state','=','preparing')]"
+                />
+
+                <filter
+                        name="done"
+                        string="Done"
+                        domain="[('state','=','done')]"
+                />
+                <filter name="state" string="Group by State" context="{'group_by':'state'}"/>
+            </search>
+        </field>
+    </record>
+
+
+    <record id="order_graph_view" model="ir.ui.view">
+        <field name="name">restaurant.order.graph</field>
+        <field name="model">restaurant.order</field>
+        <field name="arch" type="xml">
+            <graph string="Restaurant Orders" type="bar">
+                <field name="state"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="order_pivot_view" model="ir.ui.view">
+        <field name="name">restaurant.order.pivot</field>
+        <field name="model">restaurant.order</field>
+        <field name="arch" type="xml">
+            <pivot string="Restaurant Orders">
+                <field name="state" type="row"/>
+                <field name="total" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="order_kanban_view" model="ir.ui.view">
+        <field name="name">restaurant.order.kanban</field>
+        <field name="model">restaurant.order</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state">
+                <field name="ref"/>
+                <field name="name"/>
+                <field name="table_id"/>
+                <field name="total"/>
+                <field name="state"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <strong>
+                                <field name="ref"/>
+                            </strong>
+                            <div>
+                                Customer:
+                                <field name="name"/>
+                            </div>
+                            <div>
+                                Table:
+                                <field name="table_id"/>
+                            </div>
+                            <div>
+                                Total:
+                                <field name="total"/>
+                            </div>
+                            <div>
+                                State:
+                                <field name="state"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="restaurant_order_action" model="ir.actions.act_window">
+        <field name="name">Restaurant App</field>
+        <field name="res_model">restaurant.order</field>
+        <field name="view_mode">kanban,tree,form,graph,pivot</field>
+    </record>
+
+
+    <record id="restaurant_order_server" model="ir.actions.server">
+        <field name="name">Restaurant Order Server</field>
+        <field name="model_id" ref="restaurant_app.model_restaurant_order"/>
+        <field name="binding_model_id" ref="restaurant_app.model_restaurant_order"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">
+            records.server_actions()
+        </field>
+    </record>
+
+    <record id="restaurant_order_cron" model="ir.cron">
+        <field name="name">Order Cron</field>
+        <field name="model_id" ref="restaurant_app.model_restaurant_order"/>
+        <field name="state">code</field>
+        <field name="code">
+            model.cron_actions()
+        </field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="active" eval="True"/>
+    </record>
+
+    <menuitem
+        name="Order"
+        id="order_id"
+        parent="restaurant_menu"
+        action="restaurant_order_action"
+        sequence="4"/>
+
+</odoo>

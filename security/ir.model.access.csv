@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_restaurant_table_manager,access.restaurant.table.manager,model_restaurant_table,restaurant_app.restaurants_manager_id_groups,1,1,1,1
+access_restaurant_menu_manager,access.restaurant.menu.manager,model_restaurant_menu,restaurant_app.restaurants_manager_id_groups,1,1,1,1
+access_restaurant_menu_waiter,access.restaurant.menu.waiter,model_restaurant_menu,restaurant_app.restaurants_waiter_id_groups,1,0,0,0
+access_restaurant_order_manager,access.restaurant.order.manager,model_restaurant_order,restaurant_app.restaurants_manager_id_groups,1,1,1,1
+access_restaurant_order_waiter,access.restaurant.order.waiter,model_restaurant_order,restaurant_app.restaurants_waiter_id_groups,1,1,1,0
+access_restaurant_line_manager,restaurant.line.manager,model_restaurant_line,restaurant_app.restaurants_manager_id_groups,1,1,1,1
+access_restaurant_line_waiter,restaurant.line.waiter,model_restaurant_line,restaurant_app.restaurants_waiter_id_groups,1,1,1,0
+access_cancel_order_manager,access.cancel.order.manager,model_cancel_order,restaurant_app.restaurants_manager_id_groups,1,1,1,1
+access_cancel_order_waiter,access.cancel.order.waiter,model_cancel_order,restaurant_app.restaurants_waiter_id_groups,1,1,1,0
+access_cancel_sale,access.cancel.sale,model_cancel_sale,base.group_user,1,1,1,0

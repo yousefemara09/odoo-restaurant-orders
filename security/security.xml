@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="restaurants_id" model="ir.module.category">
+        <field name="name">Restaurants</field>
+        <field name="sequence">10</field>
+    </record>
+    <record id="restaurants_manager_id_groups" model="res.groups">
+        <field name="name">Manager Restaurants</field>
+        <field name="category_id" ref="restaurant_app.restaurants_id"/>
+    </record>
+    <record id="restaurants_waiter_id_groups" model="res.groups">
+        <field name="name">Waiter Restaurants</field>
+        <field name="category_id" ref="restaurant_app.restaurants_id"/>
+    </record>
+
+    <record id="order_domain_id" model="ir.rule">
+        <field name="name">order domain</field>
+        <field name="model_id" ref="restaurant_app.model_restaurant_order"/>
+        <field name="domain_force">[('create_uid','=',user.id)]</field>
+        <field name="groups" eval="[(4, ref('restaurant_app.restaurants_waiter_id_groups'))]"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+</odoo>
