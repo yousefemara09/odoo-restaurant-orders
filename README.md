@@ -1,1 +1,0 @@
-# Restaurant-Simple-App-Odoo-
